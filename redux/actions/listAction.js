@@ -2,7 +2,7 @@ export const FIND_ITEM_SUCCESS = 'FIND_ITEM_SUCCESS';
 export const FIND_ITEM_FAIL = 'FIND_ITEM_FAIL';
 
 
-const BASE_URL = 'http://192.168.1.18:3000';
+const BASE_URL = 'http://192.168.1.22:3000';
 
 export const registerUser = (itemData) => {
 

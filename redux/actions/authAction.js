@@ -4,8 +4,8 @@ export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_FAIL = 'LOGIN_USER_FAIL';
 export const USER_SET_PASSWORD_SUCCESS = 'USER_SET_PASSWORD_SUCCESS';
 export const USER_SET_PASSWORD_FAIL = 'USER_SET_PASSWORD_FAIL';
-
-const BASE_URL = 'http://192.168.1.18:3000';
+import jwtDecode from 'jwt-decode';
+const BASE_URL = 'http://192.168.1.22:3000';
 
 export const registerUser = (authData) => {
 
@@ -32,7 +32,7 @@ export const registerUser = (authData) => {
         if (resultData.success) {
             dispatch({
                 type: REGISTER_USER_SUCCESS,
-                payload: resultData
+                payload: jwtDecode(resultData.token)
             });
         } else {
             dispatch({
@@ -67,7 +67,7 @@ export const loginUser = (authData) => {
         if (resultData.success) {
             dispatch({
                 type: LOGIN_USER_SUCCESS,
-                payload: resultData
+                payload: jwtDecode(resultData.token)
             });
         } else {
             dispatch({

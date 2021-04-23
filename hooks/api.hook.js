@@ -13,8 +13,8 @@ export function useApi() {
     const getHouseDetails = async houseId => (await httpClient.get(`/houses/${houseId}`)).data
     const deleteProduct = async (houseId, productId) => (await httpClient.put(`/houses/DeleteProduct/${houseId}/${productId}`))
     const updateQuantity = async (houseId, productId, Quantity) => (await httpClient.put(`/houses/updateQuantity/${houseId}/${productId}/${Quantity}`))
-
     const getSupermarkets = async (lat, long) => (await httpClient.get('/maps/supermarkets', { params: { lat, long } })).data
-    return { login, getHouseDetails, deleteProduct, updateQuantity, getSupermarkets };
+    const getMyHistory = async (userID)=>(await httpClient.get(`/OldList/${userID}`)).data
+    return { login, getHouseDetails, deleteProduct, updateQuantity, getSupermarkets,getMyHistory };
 
 }
