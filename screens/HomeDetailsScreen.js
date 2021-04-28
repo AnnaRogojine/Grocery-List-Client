@@ -85,6 +85,7 @@ const HomeDetailsScreen = props => {
           position="left"
           animated={false}
           showBackground={false}
+          onPressMain={() => props.navigation.navigate('SearchProduct', { listId: houseId })}
 
         />
       </View>
@@ -191,6 +192,7 @@ const HomeDetailsScreen = props => {
         position="left"
         animated={false}
         showBackground={false}
+        onPressMain={() => props.navigation.navigate('SearchProduct', { listId: houseId })}
 
       />
       <Button title="Finish" color="#66CDAA" onPress={() => _getLocation()}

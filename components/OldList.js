@@ -2,10 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import {MaterialIcons} from '@expo/vector-icons';
 
-const OldList = props => {
-    var isFav=false;
-    console.log("I am:" ,isFav)
-
+const OldList =({isFav,... props}) => {
+   
     return (
         <TouchableOpacity>
             <View style={styles.listItem}>
@@ -27,14 +25,8 @@ const OldList = props => {
 
                     
                 </View>
-                <MaterialIcons style={styles.icon} size={40} name={isFav ? 'favorite': 'favorite-border'} onPress={() => {
-                            if(isFav==false){
-                                isFav=true;
-                            }
-                            else{
-                                isFav=false;
-                            }
-                            console.log(isFav);
+                <MaterialIcons style={styles.icon} size={40} name={/*Fav ?  'favorite': */'favorite-border'} onPress={() =>   {console.log("Fav");
+                            
                         }}/>
 
             </View>
