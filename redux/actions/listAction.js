@@ -2,7 +2,7 @@ export const FIND_PRODUCT_SUCCESS = 'FIND_ITEM_SUCCESS';
 export const FIND_PRODUCT_FAIL = 'FIND_ITEM_FAIL';
 
 
-const BASE_URL = 'http://192.168.1.22:3000';
+const BASE_URL = 'http://192.168.1.23:3000';
 
 export const findProductByName = (itemData) => {
 
@@ -24,8 +24,7 @@ export const findProductByName = (itemData) => {
         })
 
         const resultData = await result.json();
-        console.log('Line 27');
-    
+ 
         //console.log(resultData);
 
         if (resultData.success) {

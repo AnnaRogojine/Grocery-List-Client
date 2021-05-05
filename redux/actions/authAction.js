@@ -5,7 +5,7 @@ export const LOGIN_USER_FAIL = 'LOGIN_USER_FAIL';
 export const USER_SET_PASSWORD_SUCCESS = 'USER_SET_PASSWORD_SUCCESS';
 export const USER_SET_PASSWORD_FAIL = 'USER_SET_PASSWORD_FAIL';
 import jwtDecode from 'jwt-decode';
-const BASE_URL = 'http://192.168.1.22:3000';
+const BASE_URL = 'http://192.168.1.23:3000';
 
 export const registerUser = (authData) => {
 

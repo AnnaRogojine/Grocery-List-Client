@@ -11,7 +11,6 @@ import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import FavoriteListsScreen from '../screens/FavoriteListsScreen';
-import SearchListScreen from '../screens/SearchListScreen';
 import AddHomeScreen from '../screens/AddHomeScreen';
 import OldListsScreen from '../screens/OldListsScreen';
 import HomeDetailsScreen from '../screens/HomeDetailsScreen';

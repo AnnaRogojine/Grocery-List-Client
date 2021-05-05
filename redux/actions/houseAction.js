@@ -8,7 +8,7 @@ export const fetchHouses = (CustumerID) => {
         
     
         // logic to fetch houses from API
-        const result = await fetch(`http://192.168.1.22:3000/api/houses/ByCustumerId/${CustumerID}`);
+        const result = await fetch(`http://192.168.1.23:3000/api/houses/ByCustumerId/${CustumerID}`);
        
 
         const resultData = await result.json();
@@ -22,7 +22,7 @@ export const fetchHouses = (CustumerID) => {
 export const createHome = ({CustumerID,ListName,items}) => {
 
     return async dispatch => {
-        const response = await fetch('http://192.168.1.22:3000/api/houses', {
+        const response = await fetch('http://192.168.1.23:3000/api/houses', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -47,7 +47,7 @@ export const createHome = ({CustumerID,ListName,items}) => {
 export const deleteList = (ListID) => {
  
     return async dispatch => {
-        await fetch(`http://192.168.1.22:3000/api/houses/${ListID}`, {
+        await fetch(`http://192.168.1.23:3000/api/houses/${ListID}`, {
             method: 'DELETE',
             
         })
@@ -64,7 +64,7 @@ export const deleteList = (ListID) => {
 export const deleteProduct = (ListID,ProductID) => {
     
     return async dispatch => {
-        await fetch(`http://192.168.1.22:3000/api/houses/DeleteProduct/${ListID}/${ProductID}`, {
+        await fetch(`http://192.168.1.23:3000/api/houses/DeleteProduct/${ListID}/${ProductID}`, {
             method: 'PUT',
             
         })

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, StatusBar, Touchable, Button } from 'react-native';
+import { Modal, TextInput, StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { FloatingAction } from 'react-native-floating-action';
@@ -10,43 +10,50 @@ import { IconButton, Colors } from 'react-native-paper';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import { useApi } from '../hooks/api.hook';
-
+import { Dimensions } from 'react-native';
+const { width } = Dimensions.get("window");
 const HomeDetailsScreen = props => {
 
   const api = useApi();
 
   const { houseId } = props.route.params;
+  // This is to manage Modal State
+  const [isModalVisible, setModalVisible] = useState(false);
 
-  const _updateDBQuantity = async ()=>{ 
-    for(let i=0;i<products.length;i++){
-      await api.updateQuantity(houseId,products[i]._id,products[i].quantity);
-      
+  // This is to manage TextInput State
+  const [inputValue, setInputValue] = useState("");
+
+  // Create toggleModalVisibility function that will
+  // Open and close modal upon button clicks.
+  const toggleModalVisibility = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const _updateDBQuantity = async () => {
+    for (let i = 0; i < products.length; i++) {
+      await api.updateQuantity(houseId, products[i]._id, products[i].quantity);
+
     }
-
-
+  }
+  const _combined = () => {
+   
+   
+    toggleModalVisibility();
+    _getLocation();
 
   }
   const _getLocation = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
-
     if (status !== 'granted') {
       console.log('PERMISSION NOT GRANTED!');
-
-
     }
 
     const location = await Location.getCurrentPositionAsync();
-    
+
     props.navigation.navigate('Top5', {
-      location_latitude: location.coords.latitude, location_longitude: location.coords.longitude, listid: houseId
+      location_latitude: location.coords.latitude, location_longitude: location.coords.longitude, listid: houseId, radius: inputValue ? inputValue: "1500"
     })
-
-
-
   }
-
-
-  
 
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -79,7 +86,7 @@ const HomeDetailsScreen = props => {
     return (
       <View style={styles.centered}>
 
-        <Text style={styles.centered}>No lists found. You could add one!</Text>
+        <Text style={styles.centered}>No Items found. You could add one!</Text>
 
         <FloatingAction
           position="left"
@@ -105,7 +112,7 @@ const HomeDetailsScreen = props => {
 
     setProducts(prevProducts => prevProducts.filter(x => x._id !== productId))
 
-    await api.deleteProduct(houseId,productId);
+    await api.deleteProduct(houseId, productId);
   }
 
   const changeProductQuantity = (productId, newquantity) => {
@@ -156,13 +163,14 @@ const HomeDetailsScreen = props => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Text>שמור שינויים</Text>
         <IconButton
           icon="pencil"
           color={Colors.red500}
-          size={30}
+
           onPress={() => _updateDBQuantity()}
         />
+        <Text>שמור שינויים</Text>
+
       </View>
 
       <SwipeListView
@@ -175,7 +183,7 @@ const HomeDetailsScreen = props => {
             onQuantityChange={changeProductQuantity}
             navigation={props.navigation}
             item={item}
-          
+
 
           />
         )}
@@ -195,9 +203,24 @@ const HomeDetailsScreen = props => {
         onPressMain={() => props.navigation.navigate('SearchProduct', { listId: houseId })}
 
       />
-      <Button title="Finish" color="#66CDAA" onPress={() => _getLocation()}
 
-      />
+      <Button title="לעבור לחיפוש סופרמרקט" color="#66CDAA" onPress={toggleModalVisibility} />
+      <Modal animationType="slide"
+        transparent visible={isModalVisible}
+        presentationStyle="overFullScreen"
+        onDismiss={toggleModalVisibility}>
+        <View style={styles.viewWrapper}>
+          <View style={styles.modalView}>
+            <Text>ברדיוס של כמה מטרים לחפש?</Text>
+            <TextInput placeholder="Enter something..."
+              value={inputValue} style={styles.textInput} keyboardType="numeric"
+              onChangeText={(value) => setInputValue(value)} />
+
+            {/** This button is responsible to close the modal */}
+            <Button title="Close!" onPress={_combined} />
+          </View>
+        </View>
+      </Modal>
 
 
     </View>
@@ -208,11 +231,11 @@ const HomeDetailsScreen = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 10,
 
   },
   row: {
-    
+
     flexDirection: "row"
   },
   centered: {
@@ -280,6 +303,40 @@ const styles = StyleSheet.create({
     height: '98%',
   },
 
-
+  screen: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+  },
+  viewWrapper: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+  },
+  modalView: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    elevation: 5,
+    transform: [{ translateX: -(width * 0.4) },
+    { translateY: -90 }],
+    height: 180,
+    width: width * 0.8,
+    backgroundColor: "#fff",
+    borderRadius: 7,
+  },
+  textInput: {
+    width: "80%",
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderColor: "rgba(0, 0, 0, 0.2)",
+    borderWidth: 1,
+    marginBottom: 8,
+  },
 })
 export default HomeDetailsScreen;

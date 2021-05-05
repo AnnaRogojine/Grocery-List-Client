@@ -79,7 +79,7 @@ const AddHomeScreen = props => {
                 <Text style={styles.error}>{props.touched.ListName && props.errors.ListName}</Text>
               </View>
               <View style={styles.buttonContainer}>
-                <Button title="Add Home" onPress={props.handleSubmit} />
+                <Button title="Add List" onPress={props.handleSubmit} />
               </View>
             </View>
           )}
