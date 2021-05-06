@@ -55,8 +55,7 @@ const RegisterScreen = navData => {
                     }}
                 >
                     {(props) => (
-                        //props pass by formik
-                        //function that returns automatically
+                        
                         <View style={styles.container}>
 
                             <Image source={require('../assets/images/mobileCart.png')} style={styles.image} />

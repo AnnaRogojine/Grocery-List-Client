@@ -15,7 +15,8 @@ import AddHomeScreen from '../screens/AddHomeScreen';
 import OldListsScreen from '../screens/OldListsScreen';
 import HomeDetailsScreen from '../screens/HomeDetailsScreen';
 import Top5SuperMarketsScreen from '../screens/Top5SuperMarketsScreen';
-import SearchProductScreen from '../screens/SearchProductScreen'
+import SearchProductScreen from '../screens/SearchProductScreen';
+import HistoryListDitails from '../screens/HistoryListDitails';
 import { DrawerContent } from './DrawerContent';
 import { Header } from 'react-native/Libraries/NewAppScreen';
 
@@ -74,12 +75,15 @@ function HomeStackNavigator() {
                 component={HomeScreen}
                 
             />
+           
+            <Stack.Screen name="HistoryListDitails"
+                component={ HistoryListDitails}
 
+            />
             <Stack.Screen name="NewList"
                 component={AddHomeScreen}
 
             />
-
             <Stack.Screen name="HomeDetails"
                 component={HomeDetailsScreen}
             />

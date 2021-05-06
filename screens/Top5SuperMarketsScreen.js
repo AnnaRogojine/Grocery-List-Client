@@ -88,12 +88,7 @@ const Top5SuperMarketsScreen = props => {
                 renderItem={({ item }) => (
                     <Supermarkets
                         navigation={props.navigation}
-                        // placeName={item.placeName}
-                        // placeId={item.placeId}
-                        // uri={item.uri}
-                         isOpen={item.isOpen}
-                        // placeAddress={item.placeAddress}
-                        // id={item._id}
+                        isOpen={item.isOpen}
                         item={item}
                         chosen={_chosen}
                         unchosen={_unchosen}
