@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, View, FlatList, ActivityIndicator, Animated, TouchableHighlight, TouchableOpacity, StatusBar, Touchable, SegmentedControlIOSComponent } from 'react-native';
+import { Alert, RefreshControl, StyleSheet, Text, View, SafeAreaView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
-import jwtDecode from 'jwt-decode';
 import { FloatingAction } from 'react-native-floating-action';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-
 import { SearchBar } from 'react-native-elements';
-
 import Card from '../components/Card';
 import * as houseAction from '../redux/actions/houseAction';
 
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 const HomeScreen = props => {
     const user = useSelector(state => state.auth.user)
     const [search, setSearch] = useState('');
+    const [refreshing, setRefreshing] = React.useState(false);
 
 
     const logOut = props => {
@@ -32,10 +34,14 @@ const HomeScreen = props => {
     const dispatch = useDispatch();
 
     const [isLoading, setIsLoading] = useState(false);
-
     const { houses } = useSelector(state => state.house);
+ 
 
-
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await dispatch(houseAction.fetchHouses(user._id));
+        setRefreshing(false);
+    };
     useEffect(() => {
 
 
@@ -55,17 +61,22 @@ const HomeScreen = props => {
 
     if (houses.length === 0) {
         return (
-            <View style={styles.centered}>
+            <SafeAreaView style={styles.centered}>
                 <Text style={styles.welcomUserText}>Welcome {user.fullName}</Text>
                 <Text style={styles.centered}>No lists found. You could add one!</Text>
 
-                <FloatingAction
+                <FloatingAction contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />}
                     position="left"
                     animated={false}
                     showBackground={false}
                     onPressMain={() => props.navigation.navigate('NewList', { CustumerID: user._id })}
                 />
-            </View>
+            </SafeAreaView>
 
         );
     }
@@ -132,7 +143,7 @@ const HomeScreen = props => {
 
 
 
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
 
             <SearchBar
                 inputStyle={{ backgroundColor: 'white' }}
@@ -154,8 +165,14 @@ const HomeScreen = props => {
 
             <Text style={styles.welcomUserText}>{`Welcome ${user.fullName}`}</Text>
 
-            <SwipeListView
-                data={search? houses.filter(h => h.ListName.includes(search)) : houses}
+            <SwipeListView contentContainerStyle={styles.scrollView}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+                data={search ? houses.filter(h => h.ListName.includes(search)) : houses}
 
                 keyExtractor={item => item._id}
 
@@ -182,7 +199,7 @@ const HomeScreen = props => {
                 showBackground={false}
                 onPressMain={() => props.navigation.navigate('NewList', { CustumerID: user._id })}
             />
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -200,7 +217,7 @@ const styles = StyleSheet.create({
     welcomUserText: {
         textAlign: 'center',
         fontWeight: 'bold',
-       width: '100%'
+        width: '100%'
     },
     rowFront: {
         backgroundColor: '#FFF',

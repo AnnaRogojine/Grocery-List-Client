@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Modal, TextInput, StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Button } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { RefreshControl, SafeAreaView, Modal, TextInput, StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { FloatingAction } from 'react-native-floating-action';
@@ -12,20 +12,27 @@ import * as Permissions from 'expo-permissions';
 import { useApi } from '../hooks/api.hook';
 import { Dimensions } from 'react-native';
 const { width } = Dimensions.get("window");
+
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 const HomeDetailsScreen = props => {
-
   const api = useApi();
-
   const { houseId } = props.route.params;
   // This is to manage Modal State
   const [isModalVisible, setModalVisible] = useState(false);
-
   // This is to manage TextInput State
   const [inputValue, setInputValue] = useState("");
-
+  const [refreshing, setRefreshing] = useState(false);
+  //manage reload 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   // Create toggleModalVisibility function that will
   // Open and close modal upon button clicks.
   const toggleModalVisibility = () => {
+
     setModalVisible(!isModalVisible);
   };
 
@@ -36,12 +43,12 @@ const HomeDetailsScreen = props => {
     }
   }
   const _combined = () => {
-   
-   
+    setIsLoading(true);
     toggleModalVisibility();
     _getLocation();
 
   }
+
   const _getLocation = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
@@ -49,9 +56,9 @@ const HomeDetailsScreen = props => {
     }
 
     const location = await Location.getCurrentPositionAsync();
-
+    setIsLoading(false);
     props.navigation.navigate('Top5', {
-      location_latitude: location.coords.latitude, location_longitude: location.coords.longitude, listid: houseId, radius: inputValue ? inputValue: "1500"
+      location_latitude: location.coords.latitude, location_longitude: location.coords.longitude, listid: houseId, radius: inputValue ? inputValue : "1500"
     })
   }
 
@@ -71,7 +78,9 @@ const HomeDetailsScreen = props => {
         setIsLoading(false);
       }
     }
-    init();
+    const unsubscribe = props.navigation.addListener('focus', init);
+
+    return unsubscribe;
   }, [])
 
   if (isLoading) {
@@ -161,7 +170,7 @@ const HomeDetailsScreen = props => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.row}>
         <IconButton
           icon="pencil"
@@ -174,8 +183,14 @@ const HomeDetailsScreen = props => {
       </View>
 
       <SwipeListView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
         data={products}
-
         keyExtractor={item => item._id}
 
         renderItem={({ item }) => (
@@ -208,7 +223,7 @@ const HomeDetailsScreen = props => {
       <Modal animationType="slide"
         transparent visible={isModalVisible}
         presentationStyle="overFullScreen"
-        onDismiss={toggleModalVisibility}>
+        onDismiss={() => setModalVisible(false)}>
         <View style={styles.viewWrapper}>
           <View style={styles.modalView}>
             <Text>ברדיוס של כמה מטרים לחפש?</Text>
@@ -217,13 +232,14 @@ const HomeDetailsScreen = props => {
               onChangeText={(value) => setInputValue(value)} />
 
             {/** This button is responsible to close the modal */}
-            <Button title="Close!" onPress={_combined} />
+            <Button title="Go " onPress={_combined} />
+            <Button title="Close " onPress={toggleModalVisibility} />
           </View>
         </View>
       </Modal>
 
 
-    </View>
+    </SafeAreaView>
 
   );
 }

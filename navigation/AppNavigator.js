@@ -17,6 +17,8 @@ import HomeDetailsScreen from '../screens/HomeDetailsScreen';
 import Top5SuperMarketsScreen from '../screens/Top5SuperMarketsScreen';
 import SearchProductScreen from '../screens/SearchProductScreen';
 import HistoryListDitails from '../screens/HistoryListDitails';
+import AboutScreen from '../screens/AboutScreen';
+
 import { DrawerContent } from './DrawerContent';
 import { Header } from 'react-native/Libraries/NewAppScreen';
 
@@ -87,8 +89,12 @@ function HomeStackNavigator() {
             <Stack.Screen name="HomeDetails"
                 component={HomeDetailsScreen}
             />
+            
             <Stack.Screen name="Top5"
                 component={Top5SuperMarketsScreen}
+            />
+             <Stack.Screen name="AboutScreen"
+                component={AboutScreen}
             />
             <Stack.Screen name="OldLists"
                 component={OldListsScreen}

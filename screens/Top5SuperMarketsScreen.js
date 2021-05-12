@@ -21,16 +21,21 @@ const Top5SuperMarketsScreen = props => {
 
     useEffect(() => {
         api.getSupermarkets(location_latitude, location_longitude, radius).then(result => setData(result)).catch(e => console.warn(e));
+        // api.SuperGetMap(location_latitude,location_longitude,radius/1000).then(result => {
+        //     setData(result)
+        //     console.log(result)
+        // }).catch(e => console.warn(e));
+        
     }, []);
 
-    const _chosen = (SuperMarket) => {
-        chosen.push(SuperMarket);
-        console.log(chosen);
-    }
-    const _unchosen = (SuperMarket) => {
-        chosen.pop(SuperMarket);
-        console.log(chosen);
-    }
+    // const _chosen = (SuperMarket) => {
+    //     chosen.push(SuperMarket);
+    //     console.log(chosen);
+    // }
+    // const _unchosen = (SuperMarket) => {
+    //     chosen.pop(SuperMarket);
+    //     console.log(chosen);
+    // }
 
     var coord = [];
 
@@ -76,7 +81,7 @@ const Top5SuperMarketsScreen = props => {
                     radius={parseFloat(radius)}
                     fillColor={'rgba(200,300,200,0.5)'}
                 />
-                {coord}
+                {coord} 
 
 
             </MapView>
@@ -90,8 +95,8 @@ const Top5SuperMarketsScreen = props => {
                         navigation={props.navigation}
                         isOpen={item.isOpen}
                         item={item}
-                        chosen={_chosen}
-                        unchosen={_unchosen}
+                        //chosen={_chosen}
+                        //unchosen={_unchosen}
                     />
                 )}
             />

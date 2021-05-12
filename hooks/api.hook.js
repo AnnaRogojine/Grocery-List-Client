@@ -20,8 +20,8 @@ export function useApi() {
     const addProduct=async (listId,product_name,product_unit_name,manufacturer_id,product_barcode,product_description,quantity,manufacturer_name)=>
                                                  (await httpClient.put(`/houses/AddProduct/${listId}`,{items:{product_name: product_name,product_unit_name:product_unit_name,
                                                     manufacturer_id:manufacturer_id,product_barcode:product_barcode,product_description:product_description,quantity,manufacturer_name}}))
-    
+    const SuperGetMap=async (lat, long,radius)=>(await httpClient.post('/maps/supergetmarkets',{ lat: lat,long:long,radius:radius})).data
     const removeFav =async (userID,HistoryId)=>(await httpClient.delete(`/favorite/delete/${userID}/${HistoryId}`))
-    return { login, getHouseDetails, deleteProduct, updateQuantity, getSupermarkets,getMyHistory,getUserFavorites,addFav,removeFav,addProduct};
+    return { login, getHouseDetails, deleteProduct, updateQuantity, getSupermarkets,getMyHistory,getUserFavorites,addFav,removeFav,addProduct,SuperGetMap};
 
 }

@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator, FlatList, TextInput, KeyboardAvoidingView, TouchableOpacity, Image } from 'react-native';
 import OldList from '../components/OldList';
 import { useApi } from '../hooks/api.hook';
+import {fetchFavorites, addToFavorites, removeFromFavorites} from '../redux/actions/favoritesAction';
+import {useDispatch, useSelector} from 'react-redux';
 
 
 
 const OldListsScreen = props => {
     const { userID } = props.route.params;
     const api = useApi();
-
+    const {favoriteItemIds, isInitialized: isFavoritesInitialized} = useSelector(state => state.favorites);
+    const dispatch = useDispatch();
 
     const [isLoading, setIsLoading] = useState(false);
     const [oldList, setoldList] = useState([]);
-    const [favorites, setFavorites] = useState([]);
+    
 
 
 
@@ -20,9 +23,12 @@ const OldListsScreen = props => {
         const init = async () => {
             setIsLoading(true);
             try {
-                const [oldData, favoritesList] = await Promise.all([api.getMyHistory(userID), api.getUserFavorites(userID)]);
+                const oldData = await api.getMyHistory(userID);
                 setoldList(oldData);
-                setFavorites(favoritesList);
+                
+                if(!isFavoritesInitialized){
+                    await dispatch(fetchFavorites(userID));
+                }
 
             } finally {
                 setIsLoading(false);
@@ -34,11 +40,12 @@ const OldListsScreen = props => {
     const _addFav = async (HistoryId) => {
 
         await api.addFav(userID, HistoryId);
-        setFavorites(prev => [...prev, HistoryId]);
+        dispatch(addToFavorites(HistoryId));
     }
     const _removeFav = async (HistoryId) => {
+        
         await api.removeFav(userID, HistoryId);
-        setFavorites( prev => prev.filter(favoriteId => favoriteId !== HistoryId));
+        dispatch(removeFromFavorites(HistoryId));
     }
 
 
@@ -77,7 +84,7 @@ const OldListsScreen = props => {
 
                         navigation={props.navigation}
                         item={item}
-                        isLiked={favorites.includes(item._id)}
+                        isLiked={favoriteItemIds.includes(item._id)}
                         addFav={_addFav}
                         removeFav={_removeFav}
                         userID={userID}

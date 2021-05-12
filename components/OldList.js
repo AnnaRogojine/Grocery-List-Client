@@ -1,13 +1,13 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useApi } from '../hooks/api.hook';
-const OldList = ({userID,removeFav, addFav, isLiked, ...props }) => {
-  
+const OldList = ({ userID, removeFav, addFav, isLiked, ...props }) => {
+    
     return (
-        <TouchableOpacity   onPress={() => props.navigation.navigate('HistoryListDitails', {
+        <TouchableOpacity onPress={() => props.navigation.navigate('HistoryListDitails', {
             items: props.item.items
-          })}>
+        })}>
             <View style={styles.listItem}>
                 <Image
                     source={{ uri: 'https://cdn1.iconfinder.com/data/icons/business-startup-48/64/1076-512.png' }}
@@ -30,7 +30,7 @@ const OldList = ({userID,removeFav, addFav, isLiked, ...props }) => {
                 <MaterialIcons style={styles.icon} size={40} name={isLiked ? 'favorite' : 'favorite-border'}
                     onPress={() => {
                         isLiked ?
-                        removeFav(props.item._id) : addFav(props.item._id);
+                            removeFav(props.item._id) : addFav(props.item._id);
                     }} />
 
             </View>
