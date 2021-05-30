@@ -10,7 +10,7 @@ import { useApi } from '../hooks/api.hook';
 
 
 const Top5SuperMarketsScreen = props => {
-    const { location_latitude, location_longitude, listid, radius } = props.route.params;
+    const { location_latitude, location_longitude, listid, radius,products } = props.route.params;
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const api = useApi();
@@ -20,11 +20,8 @@ const Top5SuperMarketsScreen = props => {
 
 
     useEffect(() => {
-        api.getSupermarkets(location_latitude, location_longitude, radius).then(result => setData(result)).catch(e => console.warn(e));
-        // api.SuperGetMap(location_latitude,location_longitude,radius/1000).then(result => {
-        //     setData(result)
-        //     console.log(result)
-        // }).catch(e => console.warn(e));
+    //    api.getSupermarkets(location_latitude, location_longitude, radius).then(result => setData(result)).catch(e => console.warn(e));
+        
         
     }, []);
 
@@ -52,7 +49,16 @@ const Top5SuperMarketsScreen = props => {
             />
         )
     }
-
+    const _getSupermarkets = async () => {
+     
+        const result = await api.SuperGetMap(location_latitude, location_longitude, radius / 1000);
+        setLoading(false);
+        props.navigation.navigate('SumScreen', {
+            lat:location_latitude,long:location_longitude,radius:radius,products:products,listid:listid,supermarkets:result
+          })
+      }
+    
+     
 
     return (
 
@@ -100,9 +106,7 @@ const Top5SuperMarketsScreen = props => {
                     />
                 )}
             />
-            <Button title="לעבור לחישוב" color="#66CDAA"  onPress={() => console.log(chosen)}/>
-
-          
+            <Button title="לעבור לחישוב" color="#66CDAA"  onPress={_getSupermarkets}/>
 
         </View>
 

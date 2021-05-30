@@ -5,20 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FloatingAction } from 'react-native-floating-action';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { MaterialIcons, AntDesign } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { SearchBar } from 'react-native-elements';
 import Card from '../components/Card';
 import * as houseAction from '../redux/actions/houseAction';
+import { useApi } from '../hooks/api.hook';
 
 
-const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-}
 const HomeScreen = props => {
     const user = useSelector(state => state.auth.user)
     const [search, setSearch] = useState('');
     const [refreshing, setRefreshing] = React.useState(false);
-
+    const api = useApi();
 
     const logOut = props => {
         //while logging out we want to remove our token
@@ -35,7 +33,7 @@ const HomeScreen = props => {
 
     const [isLoading, setIsLoading] = useState(false);
     const { houses } = useSelector(state => state.house);
- 
+
 
     const onRefresh = async () => {
         setRefreshing(true);
@@ -66,11 +64,11 @@ const HomeScreen = props => {
                 <Text style={styles.centered}>No lists found. You could add one!</Text>
 
                 <FloatingAction contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />}
                     position="left"
                     animated={false}
                     showBackground={false}
@@ -98,16 +96,36 @@ const HomeScreen = props => {
 
                 Alert.alert('An error occurred. Try Again', [{ text: 'OK' }])
             })
-
-
     }
 
+    const addTOHistory = async (rowMap, houseId) => {
+
+        closeRow(rowMap, houseId);
+        const itemToHistory = houses.find(item => item._id === houseId);
+        const price=0;
+        await api.addtoHistory(itemToHistory, price);
+        dispatch(houseAction.deleteList(houseId))
+            .then(() => {
+                Alert.alert('You finish with this list');
+            })
+            .catch(() => {
+
+                Alert.alert('An error occurred. Try Again', [{ text: 'OK' }])
+            })
+    };
+
+
+
+
     const HiddenItemWithAction = props => {
-        const { onClose, onDelete, onShare } = props;
+        const { onClose, onDelete, onShare, onHistory } = props;
 
         return (
             <View style={styles.rowBack}>
-
+                <TouchableOpacity onPress={onHistory}>
+                    <MaterialCommunityIcons name="history" size={25} color='#fff' />
+                </TouchableOpacity>
+                <Text>                                                                      </Text>
                 <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft2]} onPress={onShare}>
                     <AntDesign name="adduser" size={25} color='#fff' />
                 </TouchableOpacity>
@@ -117,6 +135,7 @@ const HomeScreen = props => {
                 <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={onDelete}>
                     <MaterialCommunityIcons name="trash-can-outline" size={25} color='#fff' />
                 </TouchableOpacity>
+
 
             </View>
 
@@ -135,6 +154,7 @@ const HomeScreen = props => {
                 onClose={() => closeRow(rowMap, data.item._id)} //close the swipe row
                 onDelete={() => deleteRow(rowMap, data.item._id)} //delete item from data base
                 onShare={() => console.warn('TODO')} //share the list
+                onHistory={() => addTOHistory(rowMap, data.item._id)}//add to hosroty withoutprice
             />
         );
 
@@ -191,7 +211,7 @@ const HomeScreen = props => {
                 renderHiddenItem={renderHiddenItem}
                 leftOpenValue={75}
                 rightOpenValue={-150}
-                disableRightSwipe
+
             />
             <FloatingAction
                 position="left"
@@ -249,6 +269,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: 10,
     },
+
     backRightBtn: {
         alignItems: 'flex-end',
         bottom: 0,
@@ -273,7 +294,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 5,
         borderBottomRightRadius: 5,
         height: '98%',
-    },
+    }
 
 
 })

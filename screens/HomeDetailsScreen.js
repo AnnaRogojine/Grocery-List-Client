@@ -23,44 +23,17 @@ const HomeDetailsScreen = props => {
   const [isModalVisible, setModalVisible] = useState(false);
   // This is to manage TextInput State
   const [inputValue, setInputValue] = useState("");
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
   //manage reload 
-  const onRefresh = useCallback(() => {
+
+  const onRefresh = async () => {
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
+    const houseData = await api.getHouseDetails(houseId);
+    setProducts(houseData.items);
+    setRefreshing(false);
+  };
   // Create toggleModalVisibility function that will
   // Open and close modal upon button clicks.
-  const toggleModalVisibility = () => {
-
-    setModalVisible(!isModalVisible);
-  };
-
-  const _updateDBQuantity = async () => {
-    for (let i = 0; i < products.length; i++) {
-      await api.updateQuantity(houseId, products[i]._id, products[i].quantity);
-
-    }
-  }
-  const _combined = () => {
-    setIsLoading(true);
-    toggleModalVisibility();
-    _getLocation();
-
-  }
-
-  const _getLocation = async () => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      console.log('PERMISSION NOT GRANTED!');
-    }
-
-    const location = await Location.getCurrentPositionAsync();
-    setIsLoading(false);
-    props.navigation.navigate('Top5', {
-      location_latitude: location.coords.latitude, location_longitude: location.coords.longitude, listid: houseId, radius: inputValue ? inputValue : "1500"
-    })
-  }
 
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -93,21 +66,58 @@ const HomeDetailsScreen = props => {
 
   if (products.length == 0 && !isLoading) {
     return (
-      <View style={styles.centered}>
+      <SafeAreaView style={styles.centered}>
 
         <Text style={styles.centered}>No Items found. You could add one!</Text>
 
-        <FloatingAction
+        <FloatingAction  contentContainerStyle={styles.scrollView}
+
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />}
           position="left"
           animated={false}
           showBackground={false}
           onPressMain={() => props.navigation.navigate('SearchProduct', { listId: houseId })}
 
         />
-      </View>
+      </SafeAreaView>
 
     );
   }
+  const toggleModalVisibility = () => {
+
+    setModalVisible(!isModalVisible);
+  };
+
+  const _updateDBQuantity = async () => {
+    for (let i = 0; i < products.length; i++) {
+      await api.updateQuantity(houseId, products[i]._id, products[i].quantity);
+
+    }
+  }
+  const _combined = () => {
+    setIsLoading(true);
+    toggleModalVisibility();
+    _getLocation();
+
+  }
+
+  const _getLocation = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      console.log('PERMISSION NOT GRANTED!');
+    }
+
+    const location = await Location.getCurrentPositionAsync();
+    setIsLoading(false);
+    props.navigation.navigate('Top5', {
+      location_latitude: location.coords.latitude, location_longitude: location.coords.longitude, listid: houseId, radius: inputValue ? inputValue : "1500",products:products
+    })
+  }
+
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();

@@ -18,6 +18,9 @@ import Top5SuperMarketsScreen from '../screens/Top5SuperMarketsScreen';
 import SearchProductScreen from '../screens/SearchProductScreen';
 import HistoryListDitails from '../screens/HistoryListDitails';
 import AboutScreen from '../screens/AboutScreen';
+import imageScreen from '../screens/imageScreen';
+import SumScreen from '../screens/SumScreen';
+
 
 import { DrawerContent } from './DrawerContent';
 import { Header } from 'react-native/Libraries/NewAppScreen';
@@ -79,7 +82,12 @@ function HomeStackNavigator() {
             />
            
             <Stack.Screen name="HistoryListDitails"
+                getId={({ params }) => params.id}
                 component={ HistoryListDitails}
+
+            />
+             <Stack.Screen name="imageScreen"
+                component={imageScreen}
 
             />
             <Stack.Screen name="NewList"
@@ -88,6 +96,10 @@ function HomeStackNavigator() {
             />
             <Stack.Screen name="HomeDetails"
                 component={HomeDetailsScreen}
+            />
+
+            <Stack.Screen name="SumScreen"
+                component={SumScreen}
             />
             
             <Stack.Screen name="Top5"
@@ -160,7 +172,11 @@ function AppNavigator() {
                     component={RegisterScreen}
                     options={{ headerShown: false }}
                 />
+                 <Stack.Screen name="HistoryListDitails"
+                getId={({ params }) => params.id}
+                component={ HistoryListDitails}
 
+            />
 
                 <Stack.Screen
                     name="ForgotPassword"

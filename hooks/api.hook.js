@@ -3,10 +3,11 @@ import { useMemo } from 'react';
 
 
 
+
 export function useApi() {
 
     const httpClient = useMemo(() => axios.create({
-        baseURL: 'http://192.168.1.23:3000/api'
+        baseURL: 'http://192.168.1.21:3000/api'
     }), [])
 
     const login = async () => await httpClient.get('/whatever')
@@ -20,8 +21,21 @@ export function useApi() {
     const addProduct=async (listId,product_name,product_unit_name,manufacturer_id,product_barcode,product_description,quantity,manufacturer_name)=>
                                                  (await httpClient.put(`/houses/AddProduct/${listId}`,{items:{product_name: product_name,product_unit_name:product_unit_name,
                                                     manufacturer_id:manufacturer_id,product_barcode:product_barcode,product_description:product_description,quantity,manufacturer_name}}))
-    const SuperGetMap=async (lat, long,radius)=>(await httpClient.post('/maps/supergetmarkets',{ lat: lat,long:long,radius:radius})).data
+    const SuperGetMap=async (lat, long,radius)=>(await httpClient.get('/maps/supergetmarkets',{params:{ lat,long,radius}})).data
+    const getPrice=async (store_id, product_barcode)=>(await httpClient.get('/maps/getPrice/supergetmarkets',{params:{store_id, product_barcode}})).data
     const removeFav =async (userID,HistoryId)=>(await httpClient.delete(`/favorite/delete/${userID}/${HistoryId}`))
-    return { login, getHouseDetails, deleteProduct, updateQuantity, getSupermarkets,getMyHistory,getUserFavorites,addFav,removeFav,addProduct,SuperGetMap};
+    const changeImage=async (oldListId,image)=>{
+        const formData = new FormData();
+        const fileExtension = image.uri.split('.').pop().replace('jpg','jpeg');
+        const imageName = image.uri.split('/').pop();
+        const imageData = {name: imageName, type: `image/${fileExtension}`, uri: image.uri};
+        console.log(imageData);
+        formData.append('image', imageData);
+        await httpClient.post(`/OldList/setImage/${oldListId}`,formData, {headers: {'Content-type' :'multipart/form-data'}})
+    }
+    const addtoHistory=async (itemToHistory,price)=>(await httpClient.post(`/OldList/${price}`,{CustumerID: itemToHistory.CustumerID,ListName: itemToHistory.ListName,items:itemToHistory.items,
+        uri:itemToHistory.uri,}))
+
+    return { login, getHouseDetails, deleteProduct, updateQuantity, getSupermarkets,getMyHistory,getUserFavorites,addFav,removeFav,addProduct,SuperGetMap,changeImage, addtoHistory,getPrice};
 
 }

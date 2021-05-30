@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet,View, Text, Image,TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useApi } from '../hooks/api.hook';
+
 
 const FavoriteList = ({ saveClicked, backToList, ...props }) => {
 
