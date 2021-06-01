@@ -8,7 +8,7 @@ import listReducer from './reducers/listReducer';
 import favoritesReducer from './reducers/favoritesReducer';
 const rootReducer = combineReducers({
     favorites: favoritesReducer,
-    product: listReducer,
+    list: listReducer,
     auth: authReducer,
     house: houseReducer
 });

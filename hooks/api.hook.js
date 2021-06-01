@@ -35,7 +35,7 @@ export function useApi() {
     }
     const addtoHistory=async (itemToHistory,price)=>(await httpClient.post(`/OldList/${price}`,{CustumerID: itemToHistory.CustumerID,ListName: itemToHistory.ListName,items:itemToHistory.items,
         uri:itemToHistory.uri,}))
-
-    return { login, getHouseDetails, deleteProduct, updateQuantity, getSupermarkets,getMyHistory,getUserFavorites,addFav,removeFav,addProduct,SuperGetMap,changeImage, addtoHistory,getPrice};
+    const   getList=async (listid)=>(await httpClient.get(`/houses/${listid}`));
+    return { login, getHouseDetails, deleteProduct, updateQuantity, getSupermarkets,getMyHistory,getUserFavorites,addFav,removeFav,addProduct,SuperGetMap,changeImage, addtoHistory,getPrice,getList};
 
 }

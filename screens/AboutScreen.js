@@ -75,7 +75,7 @@ const AboutScreen = props => {
               <TouchableOpacity onPress={pickFromCamera} style={styles.btnSection}  >
                 <Text style={styles.btnText}>MAKE A PHOTO     </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={AddtoDB} style={styles.btnSection2}  >
+              <TouchableOpacity disabled={!image} onPress={AddtoDB} style={styles.btnSection2}  >
                 <Text style={styles.btnText2}>ADD     </Text>
               </TouchableOpacity>
               {image ? <Image  source={{ uri: image.uri }} style={{ width: 500, height: 500 }} /> : <Image source={{ uri: 'https://icons.iconarchive.com/icons/praveen/minimal-outline/512/gallery-icon.png' }} style={{ width: 500, height: 500 }} />}

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View,  Image } from 'react-native';
 
+const DEFAULT_PHOTO_URL = 'https://icons.iconarchive.com/icons/praveen/minimal-outline/512/gallery-icon.png';
+
 
 const imageScreen = props =>{
-    const { uri} = props.route.params;
-    const DEFAULT_PHOTO_URL = 'https://icons.iconarchive.com/icons/praveen/minimal-outline/512/gallery-icon.png';
+    const {uri} = props.route.params;
+    console.log(uri)
     
     return (
         <View>
-            <Image  source={uri ? {uri:uri}:{uri:DEFAULT_PHOTO_URL}}
+            <Image  source={{uri:uri ?? DEFAULT_PHOTO_URL}}
                         style={styles.coverImage}
 
                     />

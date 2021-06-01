@@ -1,36 +1,48 @@
-import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useApi } from '../hooks/api.hook';
+import * as houseAction from '../redux/actions/houseAction';
 
 const PriceCheck = (props) => {
-    const price = 0;
-    const [Missed, setMissed] = useState([]);
-    const [Price, setPrice] = useState([]);
+    console.log(props.item.cart_price);
     const api = useApi();
-    // const _count = async () => {
-    //     for (let i = 0; i < props.products.length; i++) {
-    //         //console.log(store_id, props.products[i].product_barcode);
-    //         const result = await api.getPrice(props.item.store_id, props.products[i].product_barcode);
-    //         if (result) {
-    //             console.log(result);
-    //         // price = result.store_product_last_price * props.products[i].quantity;
-    //             //console.log(result.store_product_last_price);
-    //         }
-    //         else {
-    //             // price = price + 0;
-    //             // setMissed(result);
-    //         }
-    //     }
-    //     setPrice(price);
+    const _getListDetailes = async () => {
+        try {
+            const result = await api.getList(listid);
+            await api.addtoHistory(result, props.item.cart_price);
+
+        } catch (e) {
+            console.log(e);
+        }
+        dispatch(houseAction.deleteList(listid))
+        .then(() => {
+            Alert.alert('You finish with this list');
+        })
+        .catch(() => {
+
+            Alert.alert('An error occurred. Try Again', [{ text: 'OK' }])
+        })
+        props.navigation.navigate('Home');
+
+    }
+
+    
+    // let missing = [];
+
+    // for (let i = 0; i < props.item.missing.length; i++) {
+
+    //     missing.push(
+    //         <Text>
+    //            {props.item.missing[i]}
+            
+    //          </Text>
+    //     )
     // }
-    // _count();
     return (
-        <TouchableOpacity /*onPress={() => props.navigation.navigate('Home', {
-            id: props.item._id,
-            items: props.item.items
-        })}*/>
-            <View style={styles.listItem}>
+        <TouchableOpacity onPress={_getListDetailes}>
+            <View style={styles.card}>
                 <Image
                     source={{ uri: 'https://sloanreview.mit.edu/wp-content/uploads/2017/09/MAG-Simchi-Price-Optimization-Marketing-Analytics-Performance-Promotion-Pricing-1200-1200x630.jpg' }}
                     style={styles.coverImage}
@@ -38,14 +50,25 @@ const PriceCheck = (props) => {
                 />
 
                 <View style={styles.description}>
-                    <Text style={styles.title}>{props.item.sub_chain_name}</Text>
+                    <Text style={styles.title}>{props.item.supermarket.sub_chain_name}</Text>
                     <Text style={styles.descriptionText}>
-                        מרחק מהבית:{props.item.distance}
+                        מרחק מהבית:{props.item.supermarket.distance}
                     </Text>
                     <Text style={styles.descriptionText}>
-                        {props.item.store_id}
+                         כתובת :{props.item.supermarket.store_area}
                     </Text>
+                 
+                    <Text style={styles.descriptionText}>
+                        סה"כ:{'\u20AA'}{props.item.cart_price}
+                    </Text>
+                    
                 </View>
+                {/* <View>
+                    <Text>
+                        מוצרים חסרים:
+                    </Text>
+                    {missing}
+                </View> */}
                 {/* <MaterialCommunityIcons style={styles.icon} size={40} name={'recycle'}
                     onPress={() => {
                        // {toggleModalVisibility}
@@ -60,13 +83,17 @@ const PriceCheck = (props) => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#f8f8f8',
-
-
-    },
-
+    card: {
+        shadowColor: 'black',
+        shadowOpacity: 0.25,
+        shadowOffset: { width: 0, height: 2},
+        shadowRadius: 8,
+        borderRadius: 10,
+        backgroundColor: '#ffffff',
+        elevation: 5,
+        height: 250,
+        margin: 10
+      },
 
     listItem: {
         marginTop: 10,

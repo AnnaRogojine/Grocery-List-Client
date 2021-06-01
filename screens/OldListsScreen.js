@@ -36,6 +36,8 @@ const OldListsScreen = props => {
             }
         }
         init();
+        const unsubscribe = props.navigation.addListener('focus', init);
+        return unsubscribe;
     }, [])
 
     const _addFav = async (HistoryId) => {
@@ -83,7 +85,7 @@ const OldListsScreen = props => {
     }
 
     const HiddenItemWithAction = props => {
-        const { onClose, onAdd } = props;
+        const { onClose, onAdd, data } = props;
 
         return (
             <View style={styles.rowBack}>
@@ -92,7 +94,7 @@ const OldListsScreen = props => {
                 <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={onClose}>
                     <MaterialCommunityIcons name="close-circle-outline" size={25} color='#fff' />
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={onAdd}>
+                <TouchableOpacity disabled={!!data.item.uri} style={[styles.backRightBtn, styles.backRightBtnRight, /*data.item.uri && {backgroundColor: 'blue'}*/]} onPress={onAdd}>
                     <MaterialCommunityIcons name="image-plus" size={25} color='#fff' />
                 </TouchableOpacity>
 

@@ -4,8 +4,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialIcons } from '@expo/vector-icons';
-
-//import screen components
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
@@ -17,6 +15,8 @@ import HomeDetailsScreen from '../screens/HomeDetailsScreen';
 import Top5SuperMarketsScreen from '../screens/Top5SuperMarketsScreen';
 import SearchProductScreen from '../screens/SearchProductScreen';
 import HistoryListDitails from '../screens/HistoryListDitails';
+import AddUserScreen from '../screens/AddUserScreen';
+import RequestsScreen from '../screens/RequestsScreen';
 import AboutScreen from '../screens/AboutScreen';
 import imageScreen from '../screens/imageScreen';
 import SumScreen from '../screens/SumScreen';
@@ -39,7 +39,7 @@ const HeaderLeft = () => {
 
 function DrawerNavigator() {
     return (
-        <Drawer.Navigator  drawerContent={props => <DrawerContent {...props} /> } >
+        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />} >
             <Drawer.Screen
                 name="Tabs Navigator"
                 component={TabsNavigator}
@@ -55,38 +55,33 @@ function FavoritesNavigator() {
                 headerLeft: () => <HeaderLeft />
             }}
         >
-            <Stack.Screen name="Favorites" component={FavoriteListsScreen}  />
+            <Stack.Screen name="Favorites" component={FavoriteListsScreen} />
         </Stack.Navigator>
     );
 }
 
-function SearchListNavigator() {
-    return (
-        <Stack.Navigator>
-            <Stack.Screen name="Search List" component={SearchListScreen} options={{ headerLeft: null }} />
-        </Stack.Navigator>
-    );
-}
 
 function HomeStackNavigator() {
     return (
-        
+
         <Stack.Navigator
             screenOptions={{
                 headerLeft: () => <HeaderLeft />
             }}
         >
+
+         
             <Stack.Screen name="Home"
                 component={HomeScreen}
-                
-            />
-           
-            <Stack.Screen name="HistoryListDitails"
-                getId={({ params }) => params.id}
-                component={ HistoryListDitails}
 
             />
-             <Stack.Screen name="imageScreen"
+
+            <Stack.Screen name="HistoryListDitails"
+                getId={({ params }) => params.id}
+                component={HistoryListDitails}
+
+            />
+            <Stack.Screen name="imageScreen"
                 component={imageScreen}
 
             />
@@ -101,24 +96,33 @@ function HomeStackNavigator() {
             <Stack.Screen name="SumScreen"
                 component={SumScreen}
             />
-            
+
             <Stack.Screen name="Top5"
                 component={Top5SuperMarketsScreen}
             />
-             <Stack.Screen name="AboutScreen"
+            <Stack.Screen name="AboutScreen"
                 component={AboutScreen}
             />
             <Stack.Screen name="OldLists"
                 component={OldListsScreen}
-               
+
             />
-             <Stack.Screen name="SearchProduct"
+            <Stack.Screen name="SearchProduct"
                 component={SearchProductScreen}
-               
+
+            />
+               <Stack.Screen name="AddUserScreen"
+                component={AddUserScreen}
+
+            />
+
+            <Stack.Screen name="Requests"
+                component={RequestsScreen}
+
             />
 
 
-           
+
 
 
         </Stack.Navigator>
@@ -128,7 +132,7 @@ function HomeStackNavigator() {
 function TabsNavigator() {
     return (
         <Tabs.Navigator
-        
+
             screenOptions={
                 ({ route }) => ({
                     tabBarIcon: () => {
@@ -172,11 +176,11 @@ function AppNavigator() {
                     component={RegisterScreen}
                     options={{ headerShown: false }}
                 />
-                 <Stack.Screen name="HistoryListDitails"
-                getId={({ params }) => params.id}
-                component={ HistoryListDitails}
+                <Stack.Screen name="HistoryListDitails"
+                    getId={({ params }) => params.id}
+                    component={HistoryListDitails}
 
-            />
+                />
 
                 <Stack.Screen
                     name="ForgotPassword"

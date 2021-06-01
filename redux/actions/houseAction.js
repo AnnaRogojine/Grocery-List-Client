@@ -3,12 +3,14 @@ export const CREATE_HOUSES = 'CREATE_HOUSES';
 export const DELETE_LIST= 'DELETE_LIST';
 export const DELETE_ITEM= 'DELETE_ITEM';
 
+
+const BASE_URL = 'http://192.168.1.21:3000';
 export const fetchHouses = (CustumerID) => {
     return async dispatch => {
         
     
         // logic to fetch houses from API
-        const result = await fetch(`http://192.168.1.21:3000/api/houses/ByCustumerId/${CustumerID}`);
+        const result = await fetch(`${BASE_URL}/api/houses/ByCustumerId/${CustumerID}`);
        
 
         const resultData = await result.json();

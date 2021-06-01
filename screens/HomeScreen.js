@@ -33,6 +33,7 @@ const HomeScreen = props => {
 
     const [isLoading, setIsLoading] = useState(false);
     const { houses } = useSelector(state => state.house);
+    const { requests } = useSelector(state => state.list);
 
 
     const onRefresh = async () => {
@@ -41,13 +42,11 @@ const HomeScreen = props => {
         setRefreshing(false);
     };
     useEffect(() => {
-
-
         setIsLoading(true);
         dispatch(houseAction.fetchHouses(user._id))
             .then(() => setIsLoading(false))
             .catch(() => setIsLoading(false));
-    }, [dispatch]);
+    }, [dispatch/*,request*/]);
 
     if (isLoading) {
         return (
@@ -85,7 +84,14 @@ const HomeScreen = props => {
         }
     }
 
+    const AddUserToCurrList = (rowMap, rowKey) => {
+        const listName = houses.find(item =>
+            item._id == rowKey
+        );
+        console.log("rowKey:" + rowKey);
 
+        props.navigation.navigate('AddUserScreen', { listId: rowKey, listName: listName.ListName })
+    }
 
     const deleteRow = (rowMap, rowKey) => {
         dispatch(houseAction.deleteList(rowKey))
@@ -102,7 +108,7 @@ const HomeScreen = props => {
 
         closeRow(rowMap, houseId);
         const itemToHistory = houses.find(item => item._id === houseId);
-        const price=0;
+        const price = 0;
         await api.addtoHistory(itemToHistory, price);
         dispatch(houseAction.deleteList(houseId))
             .then(() => {
@@ -135,10 +141,7 @@ const HomeScreen = props => {
                 <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={onDelete}>
                     <MaterialCommunityIcons name="trash-can-outline" size={25} color='#fff' />
                 </TouchableOpacity>
-
-
             </View>
-
         );
     }
 
@@ -153,7 +156,7 @@ const HomeScreen = props => {
 
                 onClose={() => closeRow(rowMap, data.item._id)} //close the swipe row
                 onDelete={() => deleteRow(rowMap, data.item._id)} //delete item from data base
-                onShare={() => console.warn('TODO')} //share the list
+                onShare={() => AddUserToCurrList(rowMap, data.item._id)} //share the list
                 onHistory={() => addTOHistory(rowMap, data.item._id)}//add to hosroty withoutprice
             />
         );

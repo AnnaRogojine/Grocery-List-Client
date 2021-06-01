@@ -3,7 +3,7 @@ import { StyleSheet, Button, Modal, TextInput, Alert, Text, View, ActivityIndica
 import PriceCheck from '../components/PriceCheck';
 import { useApi } from '../hooks/api.hook';
 import { useDispatch, useSelector } from 'react-redux';
-import * as houseAction from '../redux/actions/houseAction';
+
 import { fetchFavorites } from '../redux/actions/favoritesAction';
 import { Dimensions } from 'react-native';
 import { concat } from 'react-native-reanimated';
@@ -13,15 +13,17 @@ const SumScreen = props => {
     const { lat, long, radius, products, listid, supermarkets } = props.route.params;
     const [isLoading, setIsLoading] = useState(false);
     const api = useApi();
-    const [priceView,setpriceView]=useState([]);
-    var price=0;
-    var arr=[];
+    const [priceView, setpriceView] = useState([]);
+    var price = 0;
+    var arr = [];
     //const [superMarkets, setsuperMarkets] = useState([]);
     useEffect(() => {
-            _count();
-    
+        setIsLoading(true);
+        _count();
+        setIsLoading(false);
+
     }, [])
-   
+
     if (isLoading) {
         return (
             <View style={styles.centered}>
@@ -29,40 +31,35 @@ const SumScreen = props => {
             </View>
         );
     }
-   
- const _count = async () => {
-    var price = 0;
-    var arr=[];
-    for (let i = 0; i < supermarkets.length; i++) {
-        price = 0;
-        arr=[];
-        for (let j = 0; j < products.length; j++) {
-            const result = await api.getPrice(supermarkets[i].store_id, products[j].product_barcode);
-            var sothing=result[0].store_product_last_price;
-            console.log((sothing===undefined));
-            // if(result[0].store_product_last_price ==='undefined'){
-            //     console.log("I am undefined");
-            //     arr.push(products[j]);
-            //     console.log(arr);
+  
+    const _count = async () => {
+        var price = 0;
+        var arr = [];
+        for (let i = 0; i < supermarkets.length; i++) {
+            price = 0;
+            arr = [];
+            for (let j = 0; j < products.length; j++) {
+                try {
+                    const result = await api.getPrice(supermarkets[i].store_id, products[j].product_barcode);
+                    const p = result[0].store_product_last_price
 
-            // }
-            if(result && result[0].store_product_last_price) {
-               
-                //console.log("SoreId:",supermarkets[i].store_id, "result:", result[0].store_product_last_price,"kamut:",products[j].quantity, "BarCode", products[j].product_barcode);
-                var p=result[0].store_product_last_price
-                // console.log(p);
-                price=price+p*products[j].quantity;
+                    price = price + p * products[j].quantity;
+                    //console.log(price);
+
+                } catch (e) {
+                    arr.push(products[j])
+                // console.log(products[j]);
+                }
+
             }
+            setpriceView(oldArray => [...oldArray, {cart_price:price.toFixed(2),missing:arr,supermarket:supermarkets[i]}]);
            
+            
         }
-        console.log("*********************************************")
-        console.log(price.toFixed(2));
-        // setpriceView({cart_price:price.toFixed(2),missing:arr,supermarket:supermarkets[i]});
-        // console.log(priceView);
+        
     }
-   
-}
-
+    console.log("*********************************************")
+    console.log(priceView);
     if (supermarkets.length === 0 && !isLoading) {
         return (
             <View style={styles.centered}>
@@ -78,9 +75,9 @@ const SumScreen = props => {
 
     return (
         <View style={styles.container}>
-            {/* <FlatList
+            <FlatList
 
-                data={supermarkets}
+                data={priceView}
                 keyExtractor={item => item._id}
 
                 renderItem={({ item }) => (
@@ -88,12 +85,13 @@ const SumScreen = props => {
                         navigation={props.navigation}
                         item={item}
                         listid={listid}
-                        products={products}
+                        id={item._id}
+                        
                     />
                 )}
             />
-             */}
-            <Text>{JSON.stringify(priceView)}</Text>
+            
+            {/* <Text>{JSON.stringify(priceView)}</Text> */}
         </View>
 
     );
