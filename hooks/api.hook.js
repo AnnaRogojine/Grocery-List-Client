@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 export function useApi() {
 
     const httpClient = useMemo(() => axios.create({
-        baseURL: 'http://192.168.1.21:3000/api'
+        baseURL: 'http://192.168.1.23:3000/api'
     }), [])
 
     const login = async () => await httpClient.get('/whatever')
@@ -33,9 +33,8 @@ export function useApi() {
         formData.append('image', imageData);
         await httpClient.post(`/OldList/setImage/${oldListId}`,formData, {headers: {'Content-type' :'multipart/form-data'}})
     }
-    const addtoHistory=async (itemToHistory,price)=>(await httpClient.post(`/OldList/${price}`,{CustumerID: itemToHistory.CustumerID,ListName: itemToHistory.ListName,items:itemToHistory.items,
-        uri:itemToHistory.uri,}))
-    const   getList=async (listid)=>(await httpClient.get(`/houses/${listid}`));
+    const addtoHistory=async (itemToHistory,price)=>(await httpClient.post(`/OldList/${price}`,itemToHistory))
+    const   getList=async (listid)=>(await httpClient.get(`/houses/${listid}`)).data;
     return { login, getHouseDetails, deleteProduct, updateQuantity, getSupermarkets,getMyHistory,getUserFavorites,addFav,removeFav,addProduct,SuperGetMap,changeImage, addtoHistory,getPrice,getList};
 
 }
