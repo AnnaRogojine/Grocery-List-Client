@@ -15,15 +15,14 @@ export const USER_ACCEPT_REQUEST_FAIL = 'USER_ACCEPT_REQUEST_FAIL';
 
 
 
-const BASE_URL = 'http://192.168.1.23:3000';
-//const BASE_URL = 'https://final2704.herokuapp.com';
+//const BASE_URL = 'http://192.168.1.23:3000';
+const BASE_URL='https://grocerysmartbuy.herokuapp.com';
 
 
 export const findProductByName = (itemData) => {
 
     const { productName } = itemData;
-    // console.log(productName);
-
+  
     return async dispatch => {
 
         //logic to make post request to fetch wanted product
@@ -39,9 +38,7 @@ export const findProductByName = (itemData) => {
         })
 
         const resultData = await result.json();
-        //console.log('Line 27');
-
-        console.log(resultData);
+    
 
         if (resultData.success) {
             dispatch({
@@ -63,7 +60,7 @@ export const findProductByName = (itemData) => {
 export const getMyRequests = (itemData) => {
 
     const { _id } = itemData;
-    //console.log("IN listAction.getMyRequests() line 50, userID: " + _id);
+  
 
     return async dispatch => {
 
@@ -77,7 +74,7 @@ export const getMyRequests = (itemData) => {
 
 
         const resultData = await result.json();
-        //console.log("resultData:  " + resultData.requests[0]);
+      
 
         if (resultData.success) {
             dispatch({
@@ -118,8 +115,7 @@ export const sendMyRequest = (itemData) => {
         })
 
         const resultData = await result.json();
-        //console.log(resultData);
-
+    
         if (resultData.success) {
             dispatch({
                 type: SEND_USER_REQUEST_SUCCESS,
@@ -157,8 +153,7 @@ export const UserRefuseJoinToList = (itemData) => {
         })
 
         const resultData = await result.json();
-        //console.log(resultData);
-
+     
         if (resultData.success) {
 
             dispatch({
@@ -198,7 +193,7 @@ export const UserAcceptJoinToList = (itemData) => {
         })
 
         const resultData = await result.json();
-        //console.log(resultData);
+        
 
         if (resultData.success) {
 

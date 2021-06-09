@@ -35,7 +35,7 @@ const ForgotPasswordScreen = navData => {
                         dispatch(authAction.setUserPassword(values))
                             .then(async result => { //get the result from authActionjs: line 70
                                 //the result contain the token
-                                console.log(result);
+                              
                                 if (result.success) {
                                     try {
                                         await AsyncStorage.setItem('token', result.token)

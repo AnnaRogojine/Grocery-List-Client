@@ -4,7 +4,8 @@ export const DELETE_LIST= 'DELETE_LIST';
 export const DELETE_ITEM= 'DELETE_ITEM';
 
 
-const BASE_URL = 'http://192.168.1.23:3000';
+//const BASE_URL = 'http://192.168.1.23:3000';
+const BASE_URL='https://grocerysmartbuy.herokuapp.com';
 export const fetchHouses = (CustumerID) => {
     return async dispatch => {
         
@@ -25,7 +26,7 @@ export const createHome = ({CustumerID,ListName,items}) => {
     
 
     return async dispatch => {
-        const response = await fetch('http://192.168.1.23:3000/api/houses', {
+        const response = await fetch(`${BASE_URL}/api/houses`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -50,7 +51,7 @@ export const createHome = ({CustumerID,ListName,items}) => {
 export const deleteList = (ListID) => {
  
     return async dispatch => {
-        await fetch(`http://192.168.1.23:3000/api/houses/${ListID}`, {
+        await fetch(`${BASE_URL}/api/houses/${ListID}`, {
             method: 'DELETE',
             
         })
@@ -67,7 +68,7 @@ export const deleteList = (ListID) => {
 export const deleteProduct = (ListID,ProductID) => {
     
     return async dispatch => {
-        await fetch(`http://192.168.1.23:3000/api/houses/DeleteProduct/${ListID}/${ProductID}`, {
+        await fetch(`${BASE_URL}/api/houses/DeleteProduct/${ListID}/${ProductID}`, {
             method: 'PUT',
             
         })

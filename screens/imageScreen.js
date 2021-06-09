@@ -6,7 +6,7 @@ const DEFAULT_PHOTO_URL = 'https://icons.iconarchive.com/icons/praveen/minimal-o
 
 const imageScreen = props =>{
     const {uri} = props.route.params;
-    console.log(uri)
+ 
     
     return (
         <View>

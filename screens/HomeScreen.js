@@ -46,7 +46,7 @@ const HomeScreen = props => {
         dispatch(houseAction.fetchHouses(user._id))
             .then(() => setIsLoading(false))
             .catch(() => setIsLoading(false));
-    }, [dispatch/*,request*/]);
+    }, [dispatch,requests]);
 
     if (isLoading) {
         return (
@@ -88,7 +88,7 @@ const HomeScreen = props => {
         const listName = houses.find(item =>
             item._id == rowKey
         );
-        console.log("rowKey:" + rowKey);
+       
 
         props.navigation.navigate('AddUserScreen', { listId: rowKey, listName: listName.ListName })
     }
@@ -109,7 +109,9 @@ const HomeScreen = props => {
         closeRow(rowMap, houseId);
         const itemToHistory = houses.find(item => item._id === houseId);
         const price = 0;
-        await api.addtoHistory(itemToHistory, price);
+        const superMarketName='Unknown';
+        await api.addtoHistory(itemToHistory,superMarketName, price);
+      
         dispatch(houseAction.deleteList(houseId))
             .then(() => {
                 Alert.alert('You finish with this list');

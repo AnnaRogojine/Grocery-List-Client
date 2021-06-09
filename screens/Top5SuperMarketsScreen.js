@@ -15,7 +15,7 @@ const Top5SuperMarketsScreen = props => {
     const [data, setData] = useState([]);
     const api = useApi();
     const chosen = [];
-    console.log(radius);
+    
 
 
 
@@ -25,14 +25,7 @@ const Top5SuperMarketsScreen = props => {
         
     }, []);
 
-    // const _chosen = (SuperMarket) => {
-    //     chosen.push(SuperMarket);
-    //     console.log(chosen);
-    // }
-    // const _unchosen = (SuperMarket) => {
-    //     chosen.pop(SuperMarket);
-    //     console.log(chosen);
-    // }
+   
 
     var coord = [];
 

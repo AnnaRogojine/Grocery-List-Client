@@ -31,7 +31,6 @@ const HomeDetailsScreen = props => {
     const houseData = await api.getHouseDetails(houseId);
 
     setProducts([...houseData.items]);
-  // console.log(products);
     setRefreshing(false);
 };
 const dispatch = useDispatch();
@@ -44,7 +43,6 @@ useEffect(() => {
     try {
       const houseData = await api.getHouseDetails(houseId);
       setProducts(houseData.items);
-      console.log(products);
     } finally {
       setIsLoading(false);
     }

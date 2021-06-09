@@ -13,18 +13,9 @@ const formSchema = yup.object({
 })
 
 const AddUserScreen = props => {
-    console.log("Hello");
+    
     const user = useSelector(state => state.auth.user);
     const { listId, listName } = props.route.params;
-    console.log(listId, listName);
-
-    // const {listId} = props ;
-    console.log("9999");
-    console.log("senderId==" + user._id);
-    // console.log("senderName=="+senderName);
-    //console.log("listId==" + c);
-    console.log("9999");
-
 
     const dispatch = useDispatch();
     return (

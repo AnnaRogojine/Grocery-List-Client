@@ -5,7 +5,10 @@ export const LOGIN_USER_FAIL = 'LOGIN_USER_FAIL';
 export const USER_SET_PASSWORD_SUCCESS = 'USER_SET_PASSWORD_SUCCESS';
 export const USER_SET_PASSWORD_FAIL = 'USER_SET_PASSWORD_FAIL';
 import jwtDecode from 'jwt-decode';
-const BASE_URL = 'http://192.168.1.23:3000';
+//const BASE_URL = 'http://192.168.1.23:3000';
+
+const BASE_URL='https://grocerysmartbuy.herokuapp.com';
+
 
 export const registerUser = (authData) => {
 
@@ -27,7 +30,7 @@ export const registerUser = (authData) => {
         })
 
         const resultData = await result.json();
-        //console.log(resultData);
+   
 
         if (resultData.success) {
             dispatch({
@@ -62,7 +65,6 @@ export const loginUser = (authData) => {
 
         //result data contain the object : {message,success}
         const resultData = await result.json();
-        console.log(resultData);
 
         if (resultData.success) {
             dispatch({
@@ -98,8 +100,6 @@ export function setUserPassword(authData) {
 
         //result data contain the object : {message,success}
         const resultData = await result.json();
-        console.log(resultData);
-
         if (resultData.success) {
             dispatch({
                 type: USER_SET_PASSWORD_SUCCESS,

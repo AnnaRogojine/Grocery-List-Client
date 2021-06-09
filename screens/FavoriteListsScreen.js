@@ -69,7 +69,7 @@ const FavoriteListsScreen = props => {
 
     const _saveClicked=(CustumerID, ListName, items)=>{
         toggleModalVisibility();
-        console.log(ListName);
+
         const newList={CustumerID, ListName, items}
         setclicked(newList);
         

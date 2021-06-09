@@ -32,7 +32,7 @@ export default function (state = initialState, action) {
                 errors: true
             }
         case GET_USER_REQUESTS_SUCCESS:
-            //console.log("& " + requests);
+           
             return {
                 ...state,
                 //requests: [...state.requests,action.payload]

@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { useMemo } from 'react';
 
-
-
+const BASE_URL='https://grocerysmartbuy.herokuapp.com/api';
+//const BASE_URL = 'http://192.168.1.23:3000/api';
 
 export function useApi() {
 
     const httpClient = useMemo(() => axios.create({
-        baseURL: 'http://192.168.1.23:3000/api'
+        baseURL: BASE_URL
     }), [])
 
     const login = async () => await httpClient.get('/whatever')
@@ -29,11 +29,11 @@ export function useApi() {
         const fileExtension = image.uri.split('.').pop().replace('jpg','jpeg');
         const imageName = image.uri.split('/').pop();
         const imageData = {name: imageName, type: `image/${fileExtension}`, uri: image.uri};
-        console.log(imageData);
         formData.append('image', imageData);
         await httpClient.post(`/OldList/setImage/${oldListId}`,formData, {headers: {'Content-type' :'multipart/form-data'}})
     }
-    const addtoHistory=async (itemToHistory,price)=>(await httpClient.post(`/OldList/${price}`,itemToHistory))
+    const addtoHistory=async (itemToHistory,superMarketName,price)=>{
+        await httpClient.post(`/OldList/${price}/${superMarketName}`,itemToHistory)}
     const   getList=async (listid)=>(await httpClient.get(`/houses/${listid}`)).data;
     return { login, getHouseDetails, deleteProduct, updateQuantity, getSupermarkets,getMyHistory,getUserFavorites,addFav,removeFav,addProduct,SuperGetMap,changeImage, addtoHistory,getPrice,getList};
 

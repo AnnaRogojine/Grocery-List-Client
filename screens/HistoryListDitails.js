@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, ImageBackgrou
 
 const HistoryListDitails = props => {
     const { items } = props.route.params;
-    console.log(items);
+   
 
     var products = [];
 

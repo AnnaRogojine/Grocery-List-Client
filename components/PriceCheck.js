@@ -13,7 +13,7 @@ const PriceCheck = ({ listid, ...props }) => {
         try {
             const result = await api.getList(listid);
             console.log(result)
-            await api.addtoHistory(result, props.item.cart_price);
+            await api.addtoHistory(result,props.item.supermarket.sub_chain_name,props.item.cart_price);
         } catch (e) {
             console.log(e);
         }

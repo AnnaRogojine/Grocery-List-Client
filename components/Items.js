@@ -5,10 +5,6 @@ import { AntDesign } from '@expo/vector-icons';
 import NumericInput, { calcSize } from 'react-native-numeric-input'
 const Card = ({ onQuantityChange, ...props }) => {
 
-  let productNumber = props.item.quantity;
-  
-  let value=props.item.quantity;
-  
 
   const productNum = ((Products) => {
     return 1
@@ -41,7 +37,7 @@ const Card = ({ onQuantityChange, ...props }) => {
               iconStyle={{ color: 'white' }}
               rightButtonBackgroundColor='#ff6666'
               leftButtonBackgroundColor='#ff6666'
-              value={value}
+              value={props.item.quantity}
               valueType='real'
               minValue={1}
             />

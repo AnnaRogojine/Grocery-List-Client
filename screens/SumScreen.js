@@ -50,8 +50,7 @@ const SumScreen = props => {
         }
         setpriceView(results);
     }
-    console.log("*********************************************")
-    console.log(priceView);
+
     if (supermarkets.length === 0 && !isLoading) {
         return (
             <View style={styles.centered}>
@@ -63,6 +62,7 @@ const SumScreen = props => {
 
         );
     }
+   
 
 
     return (
