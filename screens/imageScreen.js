@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View,  Image } from 'react-native';
 
-const DEFAULT_PHOTO_URL = 'https://icons.iconarchive.com/icons/praveen/minimal-outline/512/gallery-icon.png';
+
 
 
 const imageScreen = props =>{
@@ -10,7 +10,7 @@ const imageScreen = props =>{
     
     return (
         <View>
-            <Image  source={{uri:uri ?? DEFAULT_PHOTO_URL}}
+            <Image  source={{uri:uri ?? require('../assets/images/DefaultPic.png')}}
                         style={styles.coverImage}
 
                     />

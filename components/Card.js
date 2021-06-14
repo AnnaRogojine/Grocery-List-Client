@@ -16,7 +16,7 @@ const Card = props => {
                     </Text>
                 </View>
                 <View style={styles.imageContainer}>
-                    <ImageBackground source={{ uri: 'https://cdn1.iconfinder.com/data/icons/shopping-and-commerce-2-9/134/197-512.png' }} style={styles.image}>
+                    <ImageBackground source={require('../assets/images/List.png')} style={styles.image}>
                         
                        
                     </ImageBackground>

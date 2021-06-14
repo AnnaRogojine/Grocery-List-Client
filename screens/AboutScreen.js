@@ -78,7 +78,7 @@ const AboutScreen = props => {
               <TouchableOpacity disabled={!image} onPress={AddtoDB} style={styles.btnSection2}  >
                 <Text style={styles.btnText2}>ADD     </Text>
               </TouchableOpacity>
-              {image ? <Image  source={{ uri: image.uri }} style={{ width: 500, height: 500 }} /> : <Image source={{ uri: 'https://icons.iconarchive.com/icons/praveen/minimal-outline/512/gallery-icon.png' }} style={{ width: 500, height: 500 }} />}
+              {image ? <Image  source={{ uri: image.uri }} style={{ width: 500, height: 500 }} /> : <Image source={require('../assets/images/DefaultPic.png') } style={{ width: 500, height: 500 }} />}
             </View> 
 
           </View>

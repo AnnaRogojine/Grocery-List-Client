@@ -56,7 +56,8 @@ const PriceCheck = ({ listid, ...props }) => {
                     <Text style={styles.title}>{props.item.supermarket.sub_chain_name}</Text>
                     
                     <Text style={styles.descriptionText}>
-                        מרחק מהבית:{props.item.supermarket.distance}
+                        מרחק מהבית:{props.item.supermarket.distance.length > 5 ? props.item.supermarket.distance.slice(0,5) + '...' : props.item.supermarket.distance
+                        }
                     </Text>
                     <Text style={styles.descriptionText}>
                         כתובת :{props.item.supermarket.store_address}

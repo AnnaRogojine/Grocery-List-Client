@@ -17,7 +17,7 @@ const FavoriteList = ({ saveClicked, backToList, ...props }) => {
         })}>
             <View style={styles.listItem}>
                 <Image
-                    source={{ uri: 'https://cdn1.iconfinder.com/data/icons/business-startup-48/64/1076-512.png' }}
+                    source={require('../assets/images/OldList.png') }
                     style={styles.coverImage}
 
                 />

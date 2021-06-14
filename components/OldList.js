@@ -13,8 +13,9 @@ const OldList = ({ userID, removeFav, addFav, isLiked, ...props }) => {
                 <TouchableOpacity onPress={() => props.navigation.navigate('imageScreen', {
             uri:props.item.uri
         })}>
-                    <Image
-                        source={{ uri: 'https://cdn1.iconfinder.com/data/icons/business-startup-48/64/1076-512.png' }}
+                    <Image  
+                    
+                        source={{uri:props.item.uri ??  require('../assets/images/DefaultPic.png')}}
                         style={styles.coverImage}
 
                     />

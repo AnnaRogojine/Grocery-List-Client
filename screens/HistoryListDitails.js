@@ -23,7 +23,7 @@ const HistoryListDitails = props => {
     return (
         <View style={styles.imageContainer}>
 
-            <ImageBackground source={{ uri: 'https://image.made-in-china.com/2f0j00EMOTFupnnmrL/High-Quality-Spiral-Notebook-with-Lines-Printed-YY-N0122-.jpg' }} style={styles.image}>
+            <ImageBackground source={require('../assets/images/Notebook.jpg')} style={styles.image}>
                 <ScrollView>
                     <Text style={styles.text} ></Text>
 

@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { RefreshControl, SafeAreaView, Modal, TextInput, StyleSheet, Text, View, ActivityIndicator, TouchableOpacity, Button } from 'react-native';
+import { RefreshControl, SafeAreaView, Modal, TextInput, StyleSheet, Text, View, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { FloatingAction } from 'react-native-floating-action';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { MaterialIcons } from '@expo/vector-icons';
 import Items from '../components/Items';
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { IconButton, Colors } from 'react-native-paper';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -178,14 +181,23 @@ const renderHiddenItem = (data, rowMap) => {
 
 return (
   <SafeAreaView style={styles.container}>
-    <View style={styles.row}>
-      <IconButton
-        icon="pencil"
-        color={Colors.red500}
-
+    <View style={styles.view}> 
+      <Button
+        title='שמור שינויים    '
+        icon={
+          <Icon color='white' size={25} name='pencil'/>
+        }
+        buttonStyle={{
+          backgroundColor: "red"
+       }}
         onPress={() => _updateDBQuantity()}
       />
-      <Text>שמור שינויים</Text>
+      {/* <MaterialCommunityIcons style={styles.icon} size={25} name='pencil'/>  */}
+
+      {/* <View style={styles.container}>
+      <Ionicons name="md-checkmark-circle" size={32} color="green" />
+    </View> */}
+      
 
     </View>
 
@@ -226,13 +238,16 @@ return (
 
     />
 
-    <Button title="לעבור לחיפוש סופרמרקט" color="#66CDAA" onPress={toggleModalVisibility} />
+    <Button title="לעבור לחיפוש סופרמרקט"  buttonStyle={{
+          backgroundColor: "#66CDAA"
+       }}  onPress={toggleModalVisibility} />
     <Modal animationType="slide"
       transparent visible={isModalVisible}
       presentationStyle="overFullScreen"
       onDismiss={() => setModalVisible(false)}>
       <View style={styles.viewWrapper}>
         <View style={styles.modalView}>
+        <Text style={styles.warning}>וודא ששמרת את השינויים ברשימה</Text>
           <Text>ברדיוס של כמה מטרים לחפש?</Text>
           <TextInput placeholder="Enter something..."
             value={inputValue} style={styles.textInput} keyboardType="numeric"
@@ -261,6 +276,15 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row"
+  },
+  warning:{
+    color:'red',
+    fontWeight: 'bold'
+
+  },
+  view:{
+    
+
   },
   centered: {
     flex: 1,

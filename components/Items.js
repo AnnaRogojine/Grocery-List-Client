@@ -21,14 +21,16 @@ const Card = ({ onQuantityChange, ...props }) => {
           <Text style={styles.title}>
             {props.item.product_name.length > 30 ? props.item.product_name.slice(0, 30) + '...' : props.item.product_name}
           </Text>
-          <Text>{props.item.manufacturer_name}</Text>
+          <Text>{props.item.manufacturer_name.length > 15 ? props.item.manufacturer_name.slice(0, 15) + '...' : props.item.manufacturer_name
+          }</Text>
         </View>
 
         <View style={styles.row}>
           <View style={styles.description}>
             <AntDesign name="barcode" size={20} color='#000000' />
             <Text style={styles.descriptionText}>
-              {props.item.product_barcode}
+              {props.item.product_barcode.length > 15 ? props.item.product_barcode.slice(0, 15) + '...' : props.item.product_barcode
+              }
             </Text>
           </View>
           <View style={styles.year}>
