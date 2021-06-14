@@ -1,26 +1,32 @@
 import React from 'react';
 import { StyleSheet, View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 
-const ProductCard = ({ addItem,...props})=> {
+const ProductCard = ({ addItem, ...props }) => {
     return (
-        <TouchableOpacity onPress={() =>  {
-            addItem(props.product_name,props.product_unit_name,props.manufacturer_id,props.product_barcode,props.product_description,props.quantity,props.manufacturer_name)
-          }}>
-            
+        <TouchableOpacity onPress={() => {
+            addItem(props.product_name, props.product_unit_name, props.manufacturer_id, props.product_barcode, props.product_description, props.quantity, props.manufacturer_name)
+        }}>
+
             <View style={styles.card}>
                 <View style={styles.description}>
                     <Text style={styles.title}>
                         {props.product_name.length > 30 ? props.product_name.slice(0, 30) + '...' : props.product_name}
                     </Text>
-                </View>
-                <View style={styles.row}>
 
-                    <View style={styles.description}>
-                        <Text style={styles.descriptionText}>
-                            {props.product_description}
-                        </Text>
-                    </View>
                 </View>
+                <View>
+                    <Text style={styles.title}>
+                        {props.manufacturer_name}
+                    </Text>
+                </View>
+
+                <View style={styles.description}>
+                    <Text style={styles.descriptionText}>
+                        {props.product_description}
+                    </Text>
+                </View>
+
+
             </View>
         </TouchableOpacity>
     );
@@ -38,7 +44,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: '#ffffff',
         elevation: 5,
-        height: 100,
+        height: 130,
         margin: 10
     },
     row: {

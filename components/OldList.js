@@ -27,6 +27,9 @@ const OldList = ({ userID, removeFav, addFav, isLiked, ...props }) => {
                         סה"כ:{'\u20AA'}{props.item.price ? props.item.price:"NoPrice"}
                     </Text>
                     <Text style={{ fontSize: 11 }}>
+                        סופרמרקט :{props.item.superMarketName}
+                    </Text>
+                    <Text style={{ fontSize: 11 }}>
                         תאריך הזמנה:{props.item.date.substring(4, 21)}
                     </Text>
 

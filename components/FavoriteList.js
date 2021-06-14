@@ -7,7 +7,6 @@ const FavoriteList = ({ saveClicked, backToList, ...props }) => {
 
     
     const toDo = (userID, ListName, items) => {
-        console.log("toDo");
         saveClicked(userID, ListName, items);
         //backToList(userID, ListName, items);
     }

@@ -23,7 +23,6 @@ const SearchProductScreen = props => {
 
     let textInput = '';
     const { listId } = props.route.params;
-    console.log("listID in SearchProductScreen:", listId);
 
     const dispatch = useDispatch();
     var products_list = [];

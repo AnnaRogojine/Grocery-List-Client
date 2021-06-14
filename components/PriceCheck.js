@@ -6,13 +6,11 @@ import { useApi } from '../hooks/api.hook';
 import * as houseAction from '../redux/actions/houseAction';
 
 const PriceCheck = ({ listid, ...props }) => {
-    console.log(props.item.cart_price);
     const api = useApi();
     const dispatch = useDispatch();
     const _getListDetailes = async () => {
         try {
             const result = await api.getList(listid);
-            console.log(result)
             await api.addtoHistory(result,props.item.supermarket.sub_chain_name,props.item.cart_price);
         } catch (e) {
             console.log(e);

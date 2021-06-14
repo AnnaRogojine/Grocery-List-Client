@@ -30,7 +30,7 @@ export function useApi() {
         const imageName = image.uri.split('/').pop();
         const imageData = {name: imageName, type: `image/${fileExtension}`, uri: image.uri};
         formData.append('image', imageData);
-        await httpClient.post(`/OldList/setImage/${oldListId}`,formData, {headers: {'Content-type' :'multipart/form-data'}})
+        await httpClient.put(`/OldList/setImage/${oldListId}`,formData, {headers: {'Content-type' :'multipart/form-data'}})
     }
     const addtoHistory=async (itemToHistory,superMarketName,price)=>{
         await httpClient.post(`/OldList/${price}/${superMarketName}`,itemToHistory)}
